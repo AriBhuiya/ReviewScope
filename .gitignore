@@ -1,0 +1,7 @@
+.idea
+.env
+.venv
+config.yaml
+scrap.txt
+start-mongo.commands
+__pycache__

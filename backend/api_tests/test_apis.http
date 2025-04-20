@@ -1,0 +1,7 @@
+### Get all users
+GET http://localhost:8080/apps
+Accept: application/json
+
+### Get Top 5 keywords
+GET http://localhost:8080/results/com.spotify.music/keywords?limit=5
+Accept: application/json

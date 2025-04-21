@@ -76,8 +76,8 @@ GET /queue/poll?stage=scraper&status=queued&limit=1
 Used by workers (scraper, NLP) to fetch the next job(s) they can process.
 
 Query Params
-- stage (required): scraper or nlp
-- status (required): queued, processing, etc.
+- stage (required): scraper or nlp or any
+- status (required): queued, processing, completed or any
 - limit (optional): default is 1
 
 ``` 
@@ -98,6 +98,12 @@ POST /queue/<job_id>/update
 {
   "status": "processing", // queued | processing | completed | error
   "stage": "nlp" // scraper | nlp | done
+}
+```
+If Job not found
+```
+{
+    "error": "Job not found"
 }
 ```
 ### Status

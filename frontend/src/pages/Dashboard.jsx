@@ -1,6 +1,9 @@
 import {useState, useEffect} from 'react';
 import AppSelector from '../components/AppSelector';
 import SentimentChart from "../components/SentimentChart.jsx";
+import RatingDistribution from "../components/RatingDistribution.jsx";
+import TopThemes from "../components/TopThemes.jsx";
+import TopKeywords from "../components/TopKeywords.jsx";
 
 export default function Dashboard() {
     const [selectedAppId, setSelectedAppId] = useState(null);
@@ -15,7 +18,11 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold mb-4">App Review Dashboard</h1>
             <AppSelector onSelectApp={handleAppSelect}/>
             <SentimentChart app_id={selectedAppId}/>
-
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <RatingDistribution app_id={selectedAppId}/>
+                <TopThemes app_id={selectedAppId}/>
+                <TopKeywords app_id={selectedAppId} />
+            </div>
         </div>
     );
 }

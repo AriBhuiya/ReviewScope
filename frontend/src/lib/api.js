@@ -11,3 +11,12 @@ export async function fetchSentimentsOverTime(app_id) {
         const res = await axios.get(`${API_BASE}/results/${app_id}/sentiment-over-time`);
         return res.data;
 }
+export async function fetchRatingsDistribution(app_id) {
+        const res = await axios.get(`${API_BASE}/results/${app_id}/ratings-distribution`);
+        return res.data;
+}
+
+export async function fetchThemes(app_id) {
+        const res = await axios.get(`${API_BASE}/results/${app_id}/themes?limit=5`);
+        return res.data;
+}

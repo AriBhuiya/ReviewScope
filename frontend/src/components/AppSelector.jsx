@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import { fetchApps } from "../lib/api.js";
 
 export default function AppSelector({ onSelectApp }) {
-    const [apps, setApps] = useState([]);  // 🟡 Mocked for now, empty list
+    const [apps, setApps] = useState([]);
     const [selectedApp, setSelectedApp] = useState('');
-
-    const handleAnalyze = () => {
-        if (selectedApp) {
-            onSelectApp(selectedApp);
-        }
-    };
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-    }, []);
+        fetchApps()
+            .then((fetchedApps) => {
+                setApps(fetchedApps);
+                if (fetchedApps.length > 0 && selectedApp === '') {
+                    const firstAppId = fetchedApps[0].app_id;
+                    setSelectedApp(firstAppId);
+                    onSelectApp(firstAppId);
+                }
+
+            })
+            .catch((err) => {
+                console.error("Error fetching apps:", err);
+                setError('Error fetching Cached Apps');
+            });
+    }, [onSelectApp, selectedApp]);
+
+    const handleChange = (e) => {
+        const appId = e.target.value;
+        setSelectedApp(appId);
+        onSelectApp(appId);
+    };
+
+
 
     return (
         <div className="w-full">
@@ -20,26 +37,22 @@ export default function AppSelector({ onSelectApp }) {
             <div className="flex items-center gap-4 w-full">
                 <select
                     value={selectedApp}
-                    onChange={(e) => setSelectedApp(e.target.value)}
+                    onChange={handleChange}
                     className="flex-grow p-2 border rounded"
+                    disabled={!!error}
                 >
-                    <option value="">Select Apps</option>
-                    {apps.length === 0 ? (
+                    {error ? (
+                        <option>{error}</option>
+                    ) : apps.length === 0 ? (
                         <option disabled>No cached apps available</option>
                     ) : (
                         apps.map((app) => (
                             <option key={app.app_id} value={app.app_id}>
-                                {app.name}
+                                {app.app_id}
                             </option>
                         ))
                     )}
                 </select>
-                <button
-                    onClick={handleAnalyze}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                    Analyze
-                </button>
             </div>
         </div>
     );

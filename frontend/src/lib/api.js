@@ -1,11 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_URL;
 console.log("API Base URL:", API_BASE);
 
 export async function fetchApps() {
-    const res = await fetch(`${API_BASE}/apps`);
-    const data = await res.json();
-    console.log("Fetched apps:", data);  // <-- Add this
-    return data;
+        const res = await axios.get(`${API_BASE}/apps`);
+        return res.data;
+}
+export async function fetchSentimentsOverTime(app_id) {
+        const res = await axios.get(`${API_BASE}/results/${app_id}/sentiment-over-time`);
+        return res.data;
 }

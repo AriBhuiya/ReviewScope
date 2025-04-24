@@ -100,21 +100,29 @@ Example ✅
   "app_id": "com.spotify.music",
   "reviews": [
     {
-      "rating": 2,
-      "sentiment": "Negative",
-      "theme": "Performance",
-      "text": "App frequently freezes and is very slow to respond.",
-      "date": "2024-04-15"
+      "text": "yay you guys fixed it",
+      "rating": 5,
+      "sentiment": "Positive",
+      "date": "2025-04-18T02:37:04",
+      "review_id": "79db0bec-18b7-4283-9e40-20b724779414",
+      "version": "9.0.34.593",
+      "sentiment_score": 0.676
     },
+    .
+    .
+    .
     {
-      "rating": 2,
-      "sentiment": "Negative",
-      "theme": "Bugs",
-      "text": "The app crashes every time I try to open a playlist.",
-      "date": "2024-04-05"
+      "text": "it's good 👍🏻 but some options like 1 hours 5 skips and add are 😞",
+      "rating": 3,
+      "sentiment": "Positive",
+      "date": "2025-04-15T15:13:16",
+      "review_id": "639ba858-4c26-41f3-8f02-e78a410cd799",
+      "version": "",
+      "sentiment_score": 0.639
     }
   ],
-  "total": 2
+  "total": 100000,
+  "next_offset": 10
 }
 ```
 

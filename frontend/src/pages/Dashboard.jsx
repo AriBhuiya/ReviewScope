@@ -4,6 +4,7 @@ import SentimentChart from "../components/SentimentChart.jsx";
 import RatingDistribution from "../components/RatingDistribution.jsx";
 import TopThemes from "../components/TopThemes.jsx";
 import TopKeywords from "../components/TopKeywords.jsx";
+import ReviewTable from "../components/ReviewTable.jsx";
 
 export default function Dashboard() {
     const [selectedAppId, setSelectedAppId] = useState(null);
@@ -23,6 +24,7 @@ export default function Dashboard() {
                 <TopThemes app_id={selectedAppId}/>
                 <TopKeywords app_id={selectedAppId} />
             </div>
+            <ReviewTable app_id={selectedAppId} />
         </div>
     );
 }

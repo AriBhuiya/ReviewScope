@@ -1,20 +1,32 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import WordCloud from 'react-d3-cloud';
-
-const data = [
-    { text: 'offline', value: 100 },
-    { text: 'login', value: 80 },
-    { text: 'ads', value: 60 },
-    { text: 'pause', value: 50 },
-    { text: 'update', value: 40 },
-];
+import {fetchKeywords} from "../lib/api.js";
 
 const fontSizeMapper = word => Math.log2(word.value+1) * 5;
 
-export default function TopKeywords() {
-    const containerRef = useRef(null);
+export default function TopKeywords({app_id}) {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        if (app_id) {
+            fetchKeywords(app_id)
+                .then(res => {
+                    if (res && res["top_keywords"]) {
+                        const formatted = res["top_keywords"].map(k => ({
+                            text: k["keyword"],
+                            value: k["count"]
+                        }));
+                        setData(formatted);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching top themes:", error)
+                    setData([]);
+                });
+        }
+    }, [app_id]);
+
     return (
-        <div ref={containerRef} className="bg-white p-4 rounded shadow w-full h-64">
+        <div  className="bg-white p-4 rounded shadow w-full h-64">
             <h2 className="text-lg font-semibold mb-2">Top Keywords</h2>
                 <WordCloud
                     data={data}

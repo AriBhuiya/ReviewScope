@@ -33,8 +33,11 @@ type ReviewEntry struct {
 	Text      string `json:"text" bson:"text"`
 	Rating    int    `json:"rating" bson:"rating"`
 	Sentiment string `json:"sentiment" bson:"sentiment_label"`
-	Date      string `json:"date"`            // formatted YYYY-MM-DD
-	Theme     string `json:"theme,omitempty"` // optional
+	Date      string `json:"date"` // formatted YYYY-MM-DD
+	//Theme          string  `json:"theme" bson:"theme"` // optional
+	ReviewId       string  `json:"review_id,omitempty"`
+	Version        string  `json:"version" bson:"version"`
+	SentimentScore float64 `json:"sentiment_score" bson:"sentiment_score"`
 }
 
 type ReviewResponse struct {

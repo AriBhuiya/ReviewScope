@@ -200,10 +200,13 @@ func (m *MongoDAL) GetReviews(ctx context.Context, appID, sentiment string, limi
 	var results []models.ReviewEntry
 	for cursor.Next(ctx) {
 		var raw struct {
-			Text      string `bson:"text"`
-			Rating    int    `bson:"rating"`
-			Timestamp string `bson:"timestamp"`
-			Sentiment string `bson:"sentiment_label"`
+			Text           string  `bson:"text"`
+			Rating         int     `bson:"rating"`
+			Timestamp      string  `bson:"timestamp"`
+			Sentiment      string  `bson:"sentiment_label"`
+			SentimentScore float64 `bson:"sentiment_score"`
+			ReviewId       string  `bson:"review_id"`
+			Version        string  `bson:"version"`
 		}
 		if err := cursor.Decode(&raw); err != nil {
 			continue
@@ -216,10 +219,13 @@ func (m *MongoDAL) GetReviews(ctx context.Context, appID, sentiment string, limi
 		}
 
 		results = append(results, models.ReviewEntry{
-			Text:      raw.Text,
-			Rating:    raw.Rating,
-			Sentiment: strings.Title(strings.ToLower(raw.Sentiment)),
-			Date:      date,
+			Text:           raw.Text,
+			Rating:         raw.Rating,
+			Sentiment:      strings.Title(strings.ToLower(raw.Sentiment)),
+			Date:           date,
+			ReviewId:       raw.ReviewId,
+			Version:        raw.Version,
+			SentimentScore: raw.SentimentScore,
 		})
 	}
 	total, _ := coll.CountDocuments(ctx, filter)

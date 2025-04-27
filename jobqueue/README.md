@@ -51,21 +51,40 @@ Lightweight orchestration layer for managing app review processing jobs (scrapin
   "app_id": "com.spotify.music"
 }
 ```
-**Responses**
 
-If exists and completed
+`status: queued | exists`
+queued = added to queue now; exists = already in some stage in queue
+
+`current_status / stage ` tells where it is now
+
+If Job completed:
 ```
-{ "status": "exists", "message": "Already done" }
+{
+    "current_status": "completed",
+    "job_id": "39669650-c926-4f0c-b84c-75be90cdb3fa",
+    "stage": "done",
+    "status": "exists"
+}
 ```
 
-If Already in queue:
-```
-{ "status": "queued_already", "stage": "scraper", "current_status": "processing" }
-```
-If  **New Job**
 
+If Job is New:
 ```
-{ "status": "queued", "stage": "scraper", "job_id": "abc123" } 
+{
+    "job_id": "382ecb10-cdfd-4287-bedf-55eb96a1764f",
+    "stage": "scraper",
+    "status": "queued"
+}
+```
+
+If Job is already in Queue:
+```
+{
+    "current_status": "queued",
+    "job_id": "09e780bc-5edb-47c1-ad0b-fed7a4e5bb7c",
+    "stage": "nlp",
+    "status": "exists"
+}
 ```
 
 

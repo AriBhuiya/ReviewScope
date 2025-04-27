@@ -7,7 +7,8 @@ import (
 
 func RegisterRoutes(router *gin.Engine) {
 	router.GET("/apps", handlers.GetApps)
-	router.POST("/queue", handlers.PostQueue)
+	router.GET("/apps/validate-google-app-id", handlers.ValidateAppID)
+	router.POST("/queue/add", handlers.SubmitAppToQueue)
 
 	results := router.Group("/results/:app_id")
 	{

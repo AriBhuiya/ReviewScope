@@ -46,3 +46,12 @@ type ReviewResponse struct {
 	Total      int           `json:"total"`
 	NextOffset int           `json:"next_offset"`
 }
+
+type ValidateResponse struct {
+	Valid bool   `json:"valid"`
+	Name  string `json:"name,omitempty"`
+	Error string `json:"error,omitempty"`
+}
+type QueueRequest struct {
+	AppID string `json:"app_id"`
+}

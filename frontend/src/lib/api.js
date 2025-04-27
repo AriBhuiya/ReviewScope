@@ -7,6 +7,10 @@ export async function fetchApps() {
         const res = await axios.get(`${API_BASE}/apps`);
         return res.data;
 }
+export async function validateApp(app_id) {
+        const res = await axios.get(`${API_BASE}/apps/validate-google-app-id?app_id=${app_id}`);
+        return res.data;
+}
 export async function fetchSentimentsOverTime(app_id) {
         const res = await axios.get(`${API_BASE}/results/${app_id}/sentiment-over-time`);
         return res.data;
@@ -33,5 +37,12 @@ export async function fetchReviewsWithSentiments(app_id, sentiment = 'all', limi
         params.append('offset', offset.toString());
         const url = `${API_BASE}/results/${app_id}/reviews?${params.toString()}`;
         const res = await axios.get(url);
+        return res.data;
+}
+
+export async function addToQueue(app_id){
+        const res = await axios.post(`${API_BASE}/queue/add`, {
+                app_id: app_id,
+        })
         return res.data;
 }

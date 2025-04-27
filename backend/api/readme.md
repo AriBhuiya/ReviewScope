@@ -169,6 +169,29 @@ GET /results/<app_id>/ratings-distribution ✅
 }
 ```
 
+### App validation
+`GET /apps/validate-google-app-id?app_id=<app_id>`
+
+If found
+```
+{
+  "valid": true
+}
+```
+If not found / error
+```
+{
+  "valid": false,
+  "error": "Unknown_App_ID"
+}
+OR
+{
+  "valid": false,
+  "error": "Missing app_id"
+}
+```
+
+
 ### Post APIs
 #### To request a new Job
 `POST /queue`
@@ -177,12 +200,18 @@ GET /results/<app_id>/ratings-distribution ✅
 "app_id": "com.spotify.music"
 }
 
-If Job exists:
+`status: queued | exists`
+queued = added to queue now; exists = already in some stage in queue
+
+`current_status / stage ` tells where it is now
+
+If Job completed:
 ```
 {
-  "status": "exists",
-  "message": "App already processed. Load from cache.",
-  "app_id": "com.spotify.music"
+    "current_status": "completed",
+    "job_id": "39669650-c926-4f0c-b84c-75be90cdb3fa",
+    "stage": "done",
+    "status": "exists"
 }
 ```
 
@@ -190,18 +219,18 @@ If Job exists:
 If Job is New:
 ```
 {
-  "status": "queued",
-  "job_id": "661f4b2c4afcdc001245fc87",
-  "app_id": "com.spotify.music"
+    "job_id": "382ecb10-cdfd-4287-bedf-55eb96a1764f",
+    "stage": "scraper",
+    "status": "queued"
 }
 ```
 
 If Job is already in Queue:
 ```
 {
-  "status": "queued_already",
-  "message": "App already in processing queue.",
-  "stage": "2",
-  "job_id": "661f4b2c4afcdc001245fc87"
+    "current_status": "queued",
+    "job_id": "09e780bc-5edb-47c1-ad0b-fed7a4e5bb7c",
+    "stage": "nlp",
+    "status": "exists"
 }
 ```

@@ -16,12 +16,11 @@ class MongoJobQueue(JobQueue):
     def add_job(self, app_id: str) -> dict:
         existing = self.jobs.find_one({"app_id": app_id})
         if existing:
-            if existing["status"] == "completed":
-                return JobResponse(status="exists", stage=existing["stage"], job_id=existing.get("job_id")).dict()
             return {
-                "status": "queued_already",
+                "status": "exists",
                 "stage": existing["stage"],
-                "current_status": existing["status"]
+                "current_status": existing["status"],
+                "job_id": existing["job_id"]
             }
 
         now = datetime.utcnow()

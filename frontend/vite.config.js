@@ -13,6 +13,10 @@ export default defineConfig({
                 target: 'http://localhost:8080',
                 changeOrigin: true,
             },
+            '/queue': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+            },
             '/results': {
                 target: 'http://localhost:8080',
                 changeOrigin: true,

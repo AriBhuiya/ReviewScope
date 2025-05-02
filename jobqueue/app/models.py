@@ -12,6 +12,9 @@ class Job(BaseModel):
     retries: int = 0
     error_message: Optional[str] = None
 
+class AddJobRequest(BaseModel):
+    app_id: str
+
 
 class JobResponse(BaseModel):
     status: str

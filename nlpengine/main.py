@@ -43,10 +43,12 @@ class SentimentParser:
         return themes
 
 
+sp = SentimentParser()
+kp = KeywordParser()
+tp = ThemeParser()
+
+
 def run_pipeline():
-    sp = SentimentParser()
-    kp = KeywordParser()
-    tp = ThemeParser()
     jobmanager = JobManager(queue_uri)
     job = jobmanager.fetch_last_queued_job()
     if not job:
@@ -68,7 +70,7 @@ def run_pipeline():
         sp.dal.insert_sentiment_metadata(job.app_id, keywords, themes)
         job.stage = "done"
         job.status = "completed"
-        sp.dal.insert_appname_cache(job.app_id, "google") # hardcoded as info not available in current infra.
+        sp.dal.insert_appname_cache(job.app_id, "google")  # hardcoded as info not available in current infra.
     except Exception as e:
         job.error_message = str(e)
         job.status = "error"
@@ -81,4 +83,5 @@ def run_pipeline():
         print("Job failed")
 
 
-run_pipeline()
+if __name__ == '__main__':
+    run_pipeline()

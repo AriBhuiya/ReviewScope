@@ -1,5 +1,4 @@
 # test_db_connection.py
-from nlpengine.db.mongo import db
 
 
 # FOr checking DB connection - Not recommended to use in CI/CD because of external deps

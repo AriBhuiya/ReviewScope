@@ -1,6 +1,3 @@
-import datetime
-from typing import Optional
-
 from jobManager import JobManager
 from runner import run_scraper
 from scrapers.google_scrapper import GoogleScraper
@@ -58,4 +55,5 @@ def run_pipeline():
         print("Job failed")
 
 
-run_pipeline()
+if __name__ == '__main__':
+    run_pipeline()

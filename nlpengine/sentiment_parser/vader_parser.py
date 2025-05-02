@@ -11,13 +11,13 @@ class VaderSentimentParser(BaseSentimentParser):
         results = []
         for review in reviews:
             text = review.get('text', '')
+            if text is None:
+                text = ''
             scores = self.analyzer.polarity_scores(text)
             compound = scores['compound']  # -1 to 1
 
-            # Normalize to 0-1
             normalized_score = (compound + 1) / 2
 
-            # Label assignment
             if normalized_score >= 0.6:
                 label = "POSITIVE"
                 code = 2

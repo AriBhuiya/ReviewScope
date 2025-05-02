@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"math"
 	"net/http"
 	"strconv"
 
@@ -22,6 +23,10 @@ func GetKeywords(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch keywords"})
 		return
+	}
+	// round keywords count to 2 dec
+	for i := range keywords {
+		keywords[i].Count = math.Round(keywords[i].Count*100) / 100
 	}
 
 	c.JSON(http.StatusOK, gin.H{

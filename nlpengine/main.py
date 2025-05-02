@@ -43,13 +43,11 @@ class SentimentParser:
         return themes
 
 
-sp = SentimentParser()
-kp = KeywordParser()
-tp = ThemeParser()
-jobmanager = JobManager(queue_uri)
-
-
 def run_pipeline():
+    sp = SentimentParser()
+    kp = KeywordParser()
+    tp = ThemeParser()
+    jobmanager = JobManager(queue_uri)
     job = jobmanager.fetch_last_queued_job()
     if not job:
         print("No Jobs available")

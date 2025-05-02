@@ -8,22 +8,27 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	_ "net/http"
+	"os"
 )
 
+func init() {
+	// Load .env file if present; otherwise read from environment directly — ignore errors.
+	_ = godotenv.Load()
+}
+
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	mongoDAL := db.NewMongoDAL()
 	handlers.SetDAL(mongoDAL)
 	router := gin.Default()
 
 	// Register all routes
 	api.RegisterRoutes(router)
-
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	log.Println("🚀 Server starting at :8080")
-	if err := router.Run(":8080"); err != nil {
+	if err := router.Run(":" + port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }

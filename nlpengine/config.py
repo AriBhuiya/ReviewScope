@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
-MONGO_DB_NAME = os.getenv("MONGO_DB")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME")
 MODEL = os.getenv("MODEL")
 
 if not MONGO_URI or not MONGO_DB_NAME:

@@ -4,11 +4,13 @@ import (
 	"github.com/aribhuiya/backend/api"
 	"github.com/aribhuiya/backend/db"
 	"github.com/aribhuiya/backend/handlers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"
 	_ "net/http"
 	"os"
+	"time"
 )
 
 func init() {
@@ -19,10 +21,23 @@ func init() {
 func main() {
 	mongoDAL := db.NewMongoDAL()
 	handlers.SetDAL(mongoDAL)
-	router := gin.Default()
 
+	allowedOrigin := os.Getenv("FRONTEND_ORIGIN")
+	if allowedOrigin == "" {
+		allowedOrigin = "http://localhost:5143"
+	}
+
+	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{allowedOrigin},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 	// Register all routes
 	api.RegisterRoutes(router)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

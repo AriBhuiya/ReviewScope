@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend/.env
+    environment:
+      # This should be whatever url is on browser when frontend is loaded
+      FRONTEND_ORIGIN: http://localhost:3000
+    networks:
+      - review_scope_net
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Backend url should be accessible at this from browser
+        VITE_API_URL: http://localhost:8080
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+      - mongo
+    networks:
+      - review_scope_net
+
+  queue:
+    build:
+      context: ./jobqueue
+    container_name: queue
+    ports:
+      - "9000:9000"
+    env_file:
+      - ./jobqueue/.env
+    depends_on:
+      - mongo
+    networks:
+      - review_scope_net
+
+  nlpengine:
+    build:
+      context: ./nlpengine
+    container_name: nlpengine
+    env_file:
+      - ./nlpengine/.env
+    environment:
+      QUEUE_URI: http://queue:9000
+      CRON: 10
+    depends_on:
+      - mongo
+    networks:
+      - review_scope_net
+
+  scraper:
+    build:
+      context: ./scraper
+    container_name: scraper
+    env_file:
+      - ./scraper/.env
+    environment:
+      QUEUE_URI: http://queue:9000
+      CRON: 10
+    depends_on:
+      - mongo
+    networks:
+      - review_scope_net
+
+  # If you have a mongo db separate from this, just plug the details in the above env and comment the following
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    env_file:
+      - ./mongo_config/.env
+    volumes:
+      - review_scope_mongo_data:/data/db
+    networks:
+      - review_scope_net
+
+networks:
+  review_scope_net:
+    driver: bridge
+    external: true

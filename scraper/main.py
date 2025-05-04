@@ -21,7 +21,7 @@ scraper_cfg = ScraperConfig(
 )
 
 mongo_uri = os.getenv("MONGO_URI")
-mongo_db_name = os.getenv("MONGO_DB")
+mongo_db_name = os.getenv("MONGO_DB_NAME")
 queue_uri = os.getenv("QUEUE_URI")
 scraper = GoogleScraper() if scraper_cfg.source == "google" else IosScraper()
 storage = MongoStorage(mongo_uri, mongo_db_name)

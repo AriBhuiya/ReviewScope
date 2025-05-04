@@ -7,10 +7,10 @@ db = None
 def connect():
     global client, db
     mongo_uri = os.getenv("MONGO_URI")
-    db_name = os.getenv("MONGO_DB")
+    db_name = os.getenv("MONGO_DB_NAME")
 
     if not mongo_uri or not db_name:
-        raise ValueError("Missing MONGO_URI or MONGO_DB in environment.")
+        raise ValueError("Missing MONGO_URI or MONGO_DB_NAME in environment.")
 
     client = MongoClient(mongo_uri)
     db = client[db_name]

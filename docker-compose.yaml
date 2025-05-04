@@ -13,10 +13,12 @@ services:
     environment:
       # This should be whatever url is on browser when frontend is loaded
       FRONTEND_ORIGIN: http://localhost:3000
+      QUEUE_URI: http://queue:9000
     networks:
       - review_scope_net
     depends_on:
       - mongo
+      - queue
 
   frontend:
     build:
@@ -41,6 +43,8 @@ services:
       - "9000:9000"
     env_file:
       - ./jobqueue/.env
+    environment:
+      QUEUE_URI: http://queue:9000
     depends_on:
       - mongo
     networks:
@@ -57,6 +61,7 @@ services:
       CRON: 10
     depends_on:
       - mongo
+      - queue
     networks:
       - review_scope_net
 
@@ -71,6 +76,7 @@ services:
       CRON: 10
     depends_on:
       - mongo
+      - queue
     networks:
       - review_scope_net
 
@@ -92,3 +98,6 @@ networks:
   review_scope_net:
     driver: bridge
     external: true
+
+volumes:
+  review_scope_mongo_data:

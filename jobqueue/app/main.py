@@ -12,7 +12,7 @@ app.include_router(router)
 @app.on_event("startup")
 def startup():
     mongo.connect()
-    app.state.queue = MongoJobQueue()  # attach DAL via dependency injectiond
+    app.state.queue = MongoJobQueue()  # attach DAL via dependency injection
 
 @app.on_event("shutdown")
 def shutdown():

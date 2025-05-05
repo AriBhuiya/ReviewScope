@@ -20,6 +20,9 @@ func GetApps(c *gin.Context) {
 		})
 		return
 	}
+	if apps == nil {
+		apps = []models.App{}
+	}
 	c.JSON(http.StatusOK, apps)
 }
 

@@ -15,7 +15,6 @@ import (
 func SubmitAppToQueue(c *gin.Context) {
 	var req models.QueueRequest
 	QueueUri := os.Getenv("QUEUE_URI")
-
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
@@ -32,7 +31,7 @@ func SubmitAppToQueue(c *gin.Context) {
 		return
 	}
 
-	httpReq, err := http.NewRequestWithContext(ctx, "POST", QueueUri+"/add", bytes.NewReader(bodyBytes))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", QueueUri+"/queue/add", bytes.NewReader(bodyBytes))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create request"})
 		return

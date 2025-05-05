@@ -8,8 +8,8 @@ type App struct {
 	LastUpdated time.Time `bson:"last_updated" json:"last_updated"`
 }
 type KeywordEntry struct {
-	Keyword string `bson:"keyword" json:"keyword"`
-	Count   int    `bson:"count" json:"count"`
+	Keyword string  `bson:"keyword" json:"keyword"`
+	Count   float64 `bson:"count" json:"count"`
 }
 
 type ThemeEntry struct {

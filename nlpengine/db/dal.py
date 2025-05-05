@@ -12,3 +12,7 @@ class BaseDAL(ABC):
     @abstractmethod
     def insert_sentiments(self, app_id: str, sentiments: list):
         pass
+
+    @abstractmethod
+    def insert_sentiment_metadata(self, app_id: str, keywords: list, themes: list):
+        pass

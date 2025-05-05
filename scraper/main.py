@@ -1,5 +1,5 @@
+from jobManager import JobManager
 from runner import run_scraper
-from scraper.storage.base_storage import StorageBase
 from scrapers.google_scrapper import GoogleScraper
 from scrapers.ios_scrapper import IosScraper
 from storage.mongo_storage import MongoStorage
@@ -21,16 +21,39 @@ scraper_cfg = ScraperConfig(
 )
 
 mongo_uri = os.getenv("MONGO_URI")
-app_id = "com.spotify.music"
-
+mongo_db_name = os.getenv("MONGO_DB_NAME")
+queue_uri = os.getenv("QUEUE_URI")
 scraper = GoogleScraper() if scraper_cfg.source == "google" else IosScraper()
+storage = MongoStorage(mongo_uri, mongo_db_name)
 
-storage = MongoStorage(mongo_uri)
+jobmanager = JobManager(queue_uri)
 
-class FakeMongoStorage(StorageBase):
-    def save(self, reviews: list, app_id: str):
-        print(reviews)
 
-#storage = FakeMongoStorage()
+def run_pipeline():
+    job = jobmanager.fetch_last_queued_job()
+    if not job:
+        print("No Jobs available")
+        return
+    # Processing Stage
+    job.status = "processing"
+    jobmanager.update_job(job)
+    try:
+        reviews = run_scraper(scraper, job.app_id, count=scraper_cfg.review_count)
+        if not reviews:
+            raise Exception("No reviews available / invalid app id")
+        storage.save(reviews, job.app_id)
+        job.stage = "nlp"
+        job.status = "queued"
+    except Exception as e:
+        job.error_message = str(e)
+        job.status = "error"
+        print(e)
+    jobmanager.update_job(job)
+    if job.status != "error":
+        print("Job finished")
+    else:
+        print("Job failed")
 
-run_scraper(scraper, storage, app_id, count=scraper_cfg.review_count)
+
+if __name__ == '__main__':
+    run_pipeline()

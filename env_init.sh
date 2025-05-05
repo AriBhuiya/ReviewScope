@@ -40,6 +40,7 @@ MONGO_DB_NAME=reviewscope"
 
 create_file "nlpengine/.env" "MONGO_URI=mongodb://devuser:devpass@mongo:27017/?authSource=admin
 MONGO_DB_NAME=reviewscope
+MODEL=VADER # VADER OR HUGGINGFACE
 # [For native depl] Overridden in docker-compose
 # QUEUE_URI=http://localhost:8000
 # CRON=10"

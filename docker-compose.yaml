@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
 
@@ -80,7 +79,8 @@ services:
     networks:
       - review_scope_net
 
-  # If you have a mongo db separate from this, just plug the details in the above env and comment the following
+  # If you have a separate mongo db instance, just plug in the details in the individual .env files and comment the following
+  # and remove the - depends on mongo.
   mongo:
     image: mongo:6
     container_name: mongo

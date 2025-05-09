@@ -129,10 +129,10 @@ If Job not found
  GET /queue/status/<app_id>
  ```
  {
-  "status": "processing",
-  "stage": "nlp",
-  "requested_at": "...",
-  "updated_at": "..."
+  "requested_at": "2025-05-09T15:43:17.807000",
+  "stage": "scraper",
+  "status": "queued",
+  "updated_at": "2025-05-09T15:43:17.807000"
 }
  ```
 
@@ -140,17 +140,17 @@ If Job not found
 GET /queue/overview
 ```
 {
-  "timestamp": "2025-04-20T09:00:00Z",
   "active_jobs": [
     {
       "app_id": "com.spotify.music",
-      "status": "queued",
+      "requested_at": "2025-05-09T15:43:17.807000",
       "stage": "scraper",
-      "requested_at": "...",
-      "updated_at": "..."
+      "status": "queued",
+      "updated_at": "2025-05-09T15:43:17.807000"
     }
   ],
-  "done_jobs_today": 3
+  "done_jobs_today": 0,
+  "timestamp": "2025-05-09T15:45:30.061158"
 }
 ```
 

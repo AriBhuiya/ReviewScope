@@ -58,6 +58,7 @@ services:
     environment:
       QUEUE_URI: http://queue:9000
       CRON: 10
+      MODEL: VADER
     depends_on:
       - mongo
       - queue

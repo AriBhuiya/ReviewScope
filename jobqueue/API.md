@@ -1,6 +1,6 @@
 ## Job queue Documentation
 
-
+> Use `/docs` for accessing Swagger documentation
 ## Job Lifecycle cycle
 
 #### Initial request

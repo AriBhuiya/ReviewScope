@@ -56,3 +56,43 @@ func SubmitAppToQueue(c *gin.Context) {
 
 	c.JSON(resp.StatusCode, queueResponse)
 }
+
+func proxyGETToQueue(c *gin.Context, path string) {
+	queueURI := os.Getenv("QUEUE_URI")
+	fullURL := queueURI + path
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, "GET", fullURL, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create request"})
+		return
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to reach queue service"})
+		return
+	}
+	defer resp.Body.Close()
+
+	var result map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid response from queue"})
+		return
+	}
+
+	c.JSON(resp.StatusCode, result)
+}
+
+// GetAppStatus GET /queue/status/:app_id
+func GetAppStatus(c *gin.Context) {
+	appID := c.Param("app_id")
+	proxyGETToQueue(c, "/queue/status/"+appID)
+}
+
+// GetQueueOverview GET /queue/overview
+func GetQueueOverview(c *gin.Context) {
+	proxyGETToQueue(c, "/queue/overview")
+}

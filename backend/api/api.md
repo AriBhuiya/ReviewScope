@@ -1,8 +1,14 @@
-# Documentation for API
+# 🚀 Documentation for Backend API
+There is no swagger attached, but this is the list of APIs.
+
+---
 ## GET APIs
+
+---
+
 #### Data for Sentiments over Time chart
 `GET GET /results/<app_id>/sentiment-over-time`
-Example: ✅
+Example: 
 ```
 {
   "app_id": "com.spotify.music",
@@ -30,10 +36,10 @@ Example: ✅
   ]
 }
 ```
-
-#### Api for get Apps 
+---
+#### Api for cached Apps List
 `GET /apps`
-Example ✅
+Example 
 ```
 [
   {
@@ -48,10 +54,11 @@ Example ✅
   }
 ]
 ```
+---
 
 #### Api for Top Themes 
 `GET /results/<app_id>/themes`
-✅
+
 ```
 {
   "app_id": "com.spotify.music",
@@ -77,8 +84,9 @@ Example ✅
   ]
 }
 ```
+---
 
-#### Api for Top Keywords ✅
+#### Api for Top Keywords 
 `GET /results/<app_id>/keywords?limit=5`
 ```
 {
@@ -90,7 +98,7 @@ Example ✅
   ]
 }
 ```
-
+---
 #### Get Reviews
 `GET /results/com.spotify.music/reviews?limit=3&sentiment=negative`
 [all | positive | negative | neutral] ✅
@@ -125,7 +133,7 @@ Example ✅
   "next_offset": 10
 }
 ```
-
+---
 #### Get Ratings Distributions 
 GET /results/<app_id>/ratings-distribution ✅
 ```
@@ -142,34 +150,7 @@ GET /results/<app_id>/ratings-distribution ✅
 }
 ```
 
-```
-{
-  "timestamp": "2025-04-18T17:10:00Z",
-  "active_jobs": [
-    {
-      "app_id": "com.spotify.music",
-      "status": "queued",
-      "stage": "waiting_to_scrape",
-      "requested_at": "2025-04-18T14:42:00Z"
-    },
-    {
-      "app_id": "com.twitter.android",
-      "status": "processing",
-      "stage": "nlp_analysis",
-      "requested_at": "2025-04-18T13:17:00Z"
-    },
-    {
-      "app_id": "com.whatsapp",
-      "status": "error",
-      "stage": "scraping_failed",
-      "requested_at": "2025-04-17T18:59:00Z"
-    }
-  ],
-  "done_jobs_today": 1
-}
-```
-
-### App validation
+### App validation (Checking if package name exists)
 `GET /apps/validate-google-app-id?app_id=<app_id>`
 
 If found
@@ -190,8 +171,42 @@ OR
   "error": "Missing app_id"
 }
 ```
+---
+### Queue Overview
+> This is an internal proxy request to Job Queue
+
+GET /queue/overview
+```
+{
+  "active_jobs": [
+    {
+      "app_id": "com.spotify.music",
+      "requested_at": "2025-05-09T15:43:17.807000",
+      "stage": "scraper",
+      "status": "queued",
+      "updated_at": "2025-05-09T15:43:17.807000"
+    }
+  ],
+  "done_jobs_today": 0,
+  "timestamp": "2025-05-09T15:45:30.061158"
+}
+```
+
+### Status
+> This is an internal proxy request to Job Queue
 
 
+ GET /queue/status/<app_id>
+ ```
+ {
+  "requested_at": "2025-05-09T15:43:17.807000",
+  "stage": "scraper",
+  "status": "queued",
+  "updated_at": "2025-05-09T15:43:17.807000"
+}
+ ```
+
+---
 ### Post APIs
 #### To request a new Job
 `POST /queue`
@@ -234,3 +249,4 @@ If Job is already in Queue:
     "status": "exists"
 }
 ```
+---

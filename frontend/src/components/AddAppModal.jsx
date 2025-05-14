@@ -41,8 +41,7 @@ export default function AddAppModal({ isOpen, onClose, isNewAppValid }) {
                     })
                 }
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 setError('Something went wrong validating the app. Try again later.');
             });
     };

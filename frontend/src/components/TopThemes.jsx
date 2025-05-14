@@ -29,8 +29,8 @@ export default function TopThemes({app_id}) {
     },[data, data.length, maxCount]);
     
     return (
-        <div className="bg-white p-4 rounded shadow w-full">
-            <h2 className="text-lg font-semibold mb-2">Top Themes</h2>
+        <div className="bg-white p-4 rounded w-full">
+            <h3 className="text-3xl md:text-3xl font-bold mb-7">Top Themes</h3>
             <div className="flex flex-wrap gap-2">
                 {data.map(theme => {
                     const scale = 1 + (theme.count / maxCount) * 1.5; // scale 1-2.5

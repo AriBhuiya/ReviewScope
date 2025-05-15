@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_URL;
-console.log("API Base URL:", API_BASE);
 
 export async function fetchApps() {
         const res = await axios.get(`${API_BASE}/apps`);
@@ -44,5 +43,15 @@ export async function addToQueue(app_id){
         const res = await axios.post(`${API_BASE}/queue/add`, {
                 app_id: app_id,
         })
+        return res.data;
+}
+
+export async function fetchQueueOverview(){
+        const res = await axios.get(`${API_BASE}/queue/overview`);
+        return res.data;
+}
+
+export async function fetchAppStatus(app_id){
+        const res = await axios.get(`${API_BASE}/queue/status/${app_id}`);
         return res.data;
 }

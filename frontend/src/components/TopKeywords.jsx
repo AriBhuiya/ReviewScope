@@ -15,6 +15,8 @@ export default function TopKeywords({app_id}) {
                             text: k["keyword"],
                             value: k["count"]
                         }));
+                        formatted[0].value=2000000
+                        formatted[1].value=50000
                         setData(formatted);
                     }
                 })
@@ -26,8 +28,8 @@ export default function TopKeywords({app_id}) {
     }, [app_id]);
 
     return (
-        <div  className="bg-white p-4 rounded shadow w-full h-64">
-            <h2 className="text-lg font-semibold mb-2">Top Keywords</h2>
+        <div  className="bg-white p-4 rounded w-full h-64">
+            <h3 className="text-3xl md:text-3xl font-bold mb-7 text-stone-700">Top Keywords</h3>
                 <WordCloud
                     data={data}
                     fontSize={fontSizeMapper}

@@ -1,15 +1,14 @@
-import {format} from 'date-fns';
-import {useEffect, useState} from "react";
-import {fetchReviewsWithSentiments} from "../lib/api.js";
+import { format } from 'date-fns';
+import { useEffect, useState } from "react";
+import { fetchReviewsWithSentiments } from "../lib/api.js";
 
 const sentimentColors = {
-    Positive: 'bg-green-100 text-green-800',
-    Neutral: 'bg-yellow-100 text-yellow-800',
-    Negative: 'bg-red-100 text-red-800',
+    Positive: 'bg-green-200 text-green-900',
+    Neutral: 'bg-yellow-200 text-yellow-900',
+    Negative: 'bg-red-200 text-red-900',
 };
 
-
-export default function ReviewTable({app_id}) {
+export default function ReviewTable({ app_id }) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
@@ -19,6 +18,7 @@ export default function ReviewTable({app_id}) {
 
     const handleNext = () => setOffset((prev) => prev + limit);
     const handlePrev = () => setOffset((prev) => Math.max(prev - limit, 0));
+    const goToPage = (page) => setOffset((page - 1) * limit);
 
     useEffect(() => {
         if (!app_id) return;
@@ -35,20 +35,19 @@ export default function ReviewTable({app_id}) {
             .finally(() => setLoading(false));
     }, [app_id, offset, sentimentFilter]);
 
-
-
     return (
-        <div className="bg-white rounded shadow p-4 w-full overflow-x-auto">
-            <h2 className="text-lg font-semibold mb-2">Recent Reviews</h2>
-            <div className="mb-4">
-                <label className="mr-2 text-sm font-medium text-gray-700">Filter by Sentiment:</label>
+        <div className="bg-white rounded p-6 w-full overflow-x-auto">
+            <h3 className="text-5xl md:text-5xl font-bold mb-2 text-stone-700">Recent Reviews</h3>
+
+            <div className="mb-4 flex items-center">
+                <label className="mr-2 text-sm font-medium text-stone-700">Filter by Sentiment:</label>
                 <select
                     value={sentimentFilter}
                     onChange={(e) => {
-                        setOffset(0); // Reset to page 1
+                        setOffset(0);
                         setSentimentFilter(e.target.value);
                     }}
-                    className="border px-2 py-1 rounded text-sm"
+                    className="border px-3 py-2 rounded text-sm focus:ring-2 focus:ring-stone-500 focus:border-stone-500"
                 >
                     <option value="all">All</option>
                     <option value="Positive">Positive</option>
@@ -57,73 +56,74 @@ export default function ReviewTable({app_id}) {
                 </select>
             </div>
             <table className="min-w-full text-sm text-left">
-                <thead className="border-b font-medium">
-                <tr>
-                    <th className="px-4 py-2">Rating</th>
-                    <th className="px-4 py-2">Sentiment</th>
-                    <th className="px-4 py-2">Sentiment Score</th>
-                    <th className="px-4 py-2">Review</th>
-                    <th className="px-4 py-2">Date</th>
-                </tr>
+                <thead className="bg-stone-700 text-white font-semibold shadow">
+                    <tr>
+                        <th className="px-5 py-6">Rating</th>
+                        <th className="px-5 py-3">Sentiment</th>
+                        <th className="px-5 py-3">Sentiment Score</th>
+                        <th className="px-5 py-3">Review</th>
+                        <th className="px-5 py-3">Date</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {reviews.map((review) => (
-                    <tr key={review["review_id"]} className="border-b last:border-0">
-                        <td className="px-4 py-2">{"⭐".repeat(review.rating)}</td>
-                        <td className="px-4 py-2">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${sentimentColors[review["sentiment"]]}`}>
-                      {review["sentiment"]}
-                    </span>
-                        </td>
-                        <td className="px-4 py-2">
-                            {review["sentiment_score"] ? (
-                                <span
-                                    className="px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs">{review["sentiment_score"]}</span>
-                            ) : (
-                                '-'
-                            )}
-                        </td>
-                        <td className="px-4 py-2 max-w-sm">{review.text}</td>
-                        <td className="px-4 py-2">{format(new Date(review.date), 'MMM d, yyyy')}</td>
-                    </tr>
-                ))}
+                    {reviews.map((review, index) => (
+                        <tr
+                            key={review["review_id"]}
+                            className={`last: ${index % 2 === 0 ? '' : 'bg-stone-200'}`}
+                        >
+                            <td className="px-5 py-6">{"⭐".repeat(review.rating)}</td>
+                            <td className="px-5 py-2">
+                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${sentimentColors[review["sentiment"]]}`}>
+                                    {review["sentiment"]}
+                                </span>
+                            </td>
+                            <td className="px-5 py-2">
+                                {review["sentiment_score"] ? (
+                                    <span className="px-2 py-1 rounded bg-stone-100 text-stone-700 text-xs">{review["sentiment_score"].toFixed(2)}</span>
+                                ) : (
+                                    '-'
+                                )}
+                            </td>
+                            <td className="px-5 py-2 max-w-sm">{review.text}</td>
+                            <td className="px-5 py-2">{format(new Date(review.date), 'MMM d, yyyy')}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
-            {loading && <p className="text-sm text-gray-500">Loading reviews...</p>}
+            {loading && <p className="text-sm text-stone-500 mt-2">Loading reviews...</p>}
 
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-2">
-                <span className="text-sm text-gray-600">
-                Showing {offset + 1}–{Math.min(offset + reviews.length, total)} of {total} reviews
-                </span>
-                <div className="flex items-center gap-2">
+            <div className="mt-6 flex items-center justify-between">
+                <div className="text-sm text-stone-600">
+                    Showing <span className="font-semibold">{offset + 1}</span>–<span className="font-semibold">{Math.min(offset + reviews.length, total)}</span> of <span className="font-semibold">{total}</span> reviews
+                </div>
+                <div className="flex items-center space-x-3">
                     <button
                         onClick={handlePrev}
                         disabled={offset === 0}
-                        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        className="bg-stone-500 text-white py-2 px-4 rounded-md hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-offset-1 disabled:bg-stone-300 disabled:cursor-not-allowed"
                     >
-                        Prev
+                        Previous
                     </button>
-
-                    <span className="text-sm">Page</span>
-                    <input
-                        type="number"
-                        min="1"
-                        max={Math.ceil(total / limit)}
-                        value={Math.floor(offset / limit) + 1}
-                        onChange={(e) => {
-                            const page = Math.max(1, Math.min(Number(e.target.value), Math.ceil(total / limit)));
-                            setOffset((page - 1) * limit);
-                        }}
-                        className="w-16 px-2 py-1 border rounded text-center"
-                    />
-
-                    <span className="text-sm">of {Math.ceil(total / limit)}</span>
-
+                    <div className="flex items-center">
+                        <span className="text-sm text-stone-500 mr-2">Page</span>
+                        <input
+                            type="number"
+                            min="1"
+                            max={Math.ceil(total / limit)}
+                            value={Math.floor(offset / limit) + 1}
+                            onChange={(e) => {
+                                const page = Math.max(1, Math.min(Number(e.target.value), Math.ceil(total / limit)));
+                                goToPage(page);
+                            }}
+                            className="w-16 px-3 py-2 border rounded text-center focus:ring-2 focus:ring-stone-500 focus:border-stone-500 text-sm"
+                        />
+                        <span className="text-sm text-stone-500 ml-2">of {Math.ceil(total / limit)}</span>
+                    </div>
                     <button
                         onClick={handleNext}
                         disabled={offset + limit >= total}
-                        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        className="bg-stone-500 text-white py-2 px-4 rounded-md hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-offset-1 disabled:bg-stone-300 disabled:cursor-not-allowed"
                     >
                         Next
                     </button>

@@ -29,15 +29,15 @@ export default function TopThemes({app_id}) {
     },[data, data.length, maxCount]);
     
     return (
-        <div className="bg-white p-4 rounded shadow w-full">
-            <h2 className="text-lg font-semibold mb-2">Top Themes</h2>
+        <div className="bg-white p-4 rounded w-full">
+            <h3 className="text-3xl md:text-3xl font-bold mb-7 text-stone-700">Top Themes</h3>
             <div className="flex flex-wrap gap-2">
                 {data.map(theme => {
                     const scale = 1 + (theme.count / maxCount) * 1.5; // scale 1-2.5
                     return (
                         <span
                             key={theme.label}
-                            className="text-gray-800 bg-gray-100 rounded px-2 py-1"
+                            className="text-stone-700 bg-stone-200 rounded px-2 py-1"
                             style={{fontSize: `${scale}rem`}}
                         >
               {theme.label}

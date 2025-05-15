@@ -1,4 +1,4 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line,AreaChart,Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import {useEffect, useState} from "react";
 import {fetchSentimentsOverTime} from "../lib/api.js";
 
@@ -20,23 +20,24 @@ export default function SentimentChart({app_id}) {
     }, [app_id]);
 
     return (
-        <div className="w-full bg-white rounded shadow p-4 mb-4">
-            <h2 className="text-xl font-semibold mb-2">Sentiment Over Time</h2>
+        <div className="w-full bg-white rounded  p-4 mb-4">
+            <h3 className="text-5xl md:text-5xl font-bold mb-7 text-stone-700">Sentiment Over Time</h3>
             <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={data}>
+                <AreaChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis domain={[0, 1]} tickFormatter={(val) => val.toFixed(1)} />
                     <Tooltip formatter={(value) => value.toFixed(2)} />
-                    <Line
+                    <Area
                         type="monotone"
                         dataKey="avg_sentiment"
-                        stroke="#3b82f6"
-                        strokeWidth={2}
-                        dot={{ r: 4 }}
-                        activeDot={{ r: 6 }}
+                        stroke="#44403c"
+                        fill="#78716c"
+                        strokeWidth={0}
+                        dot={{ r: 0 }}
+                        activeDot={{ r: 0 }}
                     />
-                </LineChart>
+                </AreaChart>
             </ResponsiveContainer>
         </div>
     );

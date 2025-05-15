@@ -14,7 +14,6 @@ export default function AddAppModal({ isOpen, onClose, isNewAppValid }) {
                     setError('');
                     setIsUnknownApp(false);
                 } else {
-                    isNewAppValid(null);
                     if (result["error"] === "Unknown_App_ID"){
                         setIsUnknownApp(true);
                         setError('App ID is invalid. Please enter a valid package name (like com.spotify.music).');
@@ -41,8 +40,7 @@ export default function AddAppModal({ isOpen, onClose, isNewAppValid }) {
                     })
                 }
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 setError('Something went wrong validating the app. Try again later.');
             });
     };
@@ -63,17 +61,20 @@ export default function AddAppModal({ isOpen, onClose, isNewAppValid }) {
                 />
                 {error && (
                     <>
-                        <p className="text-red-500 text-sm mb-4">{error}</p>
+                        <p className="mb-5 bg-stone-100 border border-stone-300 text-stone-700 p-4 rounded-lg text-sm leading-relaxed shadow-sm">
+                            {error}
+                        </p>
+
                         {
                             isUnknownApp && (
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="mb-5 bg-stone-100 border border-stone-300 text-stone-700 p-4 rounded-lg text-sm leading-relaxed shadow-sm">
                                     How to find it? Search for your app on <a href="https://play.google.com/"
                                                                               target="_blank"
-                                                                              className="text-blue-600 underline">Google
+                                                                              className="text-stone-900 underline">Google
                                     Play
                                     Store</a>, open the app page, and copy the text after <code>id=</code> in the URL.
                                     (Example: In
-                                    https://play.google.com/store/apps/details?id=com.spotify.music&hl=en <b>copy</b>
+                                    https://play.google.com/store/apps/details?id=com.spotify.music&hl=en <b>copy </b>
                                     <code>com.spotify.music</code>)
                                 </p>
                             )
@@ -81,10 +82,10 @@ export default function AddAppModal({ isOpen, onClose, isNewAppValid }) {
                     </>
                 )}
                 <div className="flex justify-end gap-2">
-                    <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">cancel</button>
+                    <button onClick={onClose} className="px-4 py-2 bg-stone-200 rounded">cancel</button>
                     <button
                         onClick={handleSubmit}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="px-4 py-2 bg-stone-600 text-white rounded hover:bg-stone-700"
                     >
                         Submit
                     </button>

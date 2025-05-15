@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchApps } from "../lib/api.js";
 
-export default function AppSelector({ onSelectApp }) {
+export default function AppSelector({ onSelectApp, onAddAppClick }) {
     const [apps, setApps] = useState([]);
     const [selectedApp, setSelectedApp] = useState('');
     const [error, setError] = useState(null);
@@ -15,7 +15,6 @@ export default function AppSelector({ onSelectApp }) {
                     setSelectedApp(firstAppId);
                     onSelectApp(firstAppId);
                 }
-
             })
             .catch((err) => {
                 console.error("Error fetching apps:", err);
@@ -29,16 +28,14 @@ export default function AppSelector({ onSelectApp }) {
         onSelectApp(appId);
     };
 
-
-
     return (
         <div className="w-full">
-            <h2 className="text-xl font-semibold mb-2">Select an App</h2>
-            <div className="flex items-center gap-4 w-full">
+            <h2 className="text-xl font-semibold mb-3">Select an App</h2>
+            <div className="flex items-center gap-4 w-full mb-3">
                 <select
                     value={selectedApp}
                     onChange={handleChange}
-                    className="flex-grow p-2 border rounded"
+                    className="flex-grow p-2 border rounded text-stone-700 bg-stone-200"
                     disabled={!!error}
                 >
                     {error ? (
@@ -54,6 +51,12 @@ export default function AppSelector({ onSelectApp }) {
                     )}
                 </select>
             </div>
+            <button
+                onClick={onAddAppClick}
+                className="bg-stone-200 hover:bg-stone-500 hover:text-white text-stone-700 py-2 px-4 rounded shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 text-sm"
+            >
+                + Add New App
+            </button>
         </div>
     );
 }

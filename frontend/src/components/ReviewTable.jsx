@@ -37,17 +37,17 @@ export default function ReviewTable({ app_id }) {
 
     return (
         <div className="bg-white rounded p-6 w-full overflow-x-auto">
-            <h3 className="text-5xl md:text-5xl font-bold mb-2">Recent Reviews</h3>
+            <h3 className="text-5xl md:text-5xl font-bold mb-2 text-stone-700">Recent Reviews</h3>
 
             <div className="mb-4 flex items-center">
-                <label className="mr-2 text-sm font-medium text-gray-700">Filter by Sentiment:</label>
+                <label className="mr-2 text-sm font-medium text-stone-700">Filter by Sentiment:</label>
                 <select
                     value={sentimentFilter}
                     onChange={(e) => {
                         setOffset(0);
                         setSentimentFilter(e.target.value);
                     }}
-                    className="border px-3 py-2 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="border px-3 py-2 rounded text-sm focus:ring-2 focus:ring-stone-500 focus:border-stone-500"
                 >
                     <option value="all">All</option>
                     <option value="Positive">Positive</option>
@@ -56,7 +56,7 @@ export default function ReviewTable({ app_id }) {
                 </select>
             </div>
             <table className="min-w-full text-sm text-left">
-                <thead className="bg-blue-600 text-white font-semibold shadow">
+                <thead className="bg-stone-700 text-white font-semibold shadow">
                     <tr>
                         <th className="px-5 py-6">Rating</th>
                         <th className="px-5 py-3">Sentiment</th>
@@ -69,7 +69,7 @@ export default function ReviewTable({ app_id }) {
                     {reviews.map((review, index) => (
                         <tr
                             key={review["review_id"]}
-                            className={`last: ${index % 2 === 0 ? '' : 'bg-blue-50'}`}
+                            className={`last: ${index % 2 === 0 ? '' : 'bg-stone-200'}`}
                         >
                             <td className="px-5 py-6">{"⭐".repeat(review.rating)}</td>
                             <td className="px-5 py-2">
@@ -79,7 +79,7 @@ export default function ReviewTable({ app_id }) {
                             </td>
                             <td className="px-5 py-2">
                                 {review["sentiment_score"] ? (
-                                    <span className="px-2 py-1 rounded bg-blue-100 text-blue-700 text-xs">{review["sentiment_score"].toFixed(2)}</span>
+                                    <span className="px-2 py-1 rounded bg-stone-100 text-stone-700 text-xs">{review["sentiment_score"].toFixed(2)}</span>
                                 ) : (
                                     '-'
                                 )}
@@ -91,22 +91,22 @@ export default function ReviewTable({ app_id }) {
                 </tbody>
             </table>
 
-            {loading && <p className="text-sm text-gray-500 mt-2">Loading reviews...</p>}
+            {loading && <p className="text-sm text-stone-500 mt-2">Loading reviews...</p>}
 
             <div className="mt-6 flex items-center justify-between">
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-stone-600">
                     Showing <span className="font-semibold">{offset + 1}</span>–<span className="font-semibold">{Math.min(offset + reviews.length, total)}</span> of <span className="font-semibold">{total}</span> reviews
                 </div>
                 <div className="flex items-center space-x-3">
                     <button
                         onClick={handlePrev}
                         disabled={offset === 0}
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="bg-stone-500 text-white py-2 px-4 rounded-md hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-offset-1 disabled:bg-stone-300 disabled:cursor-not-allowed"
                     >
                         Previous
                     </button>
                     <div className="flex items-center">
-                        <span className="text-sm text-gray-500 mr-2">Page</span>
+                        <span className="text-sm text-stone-500 mr-2">Page</span>
                         <input
                             type="number"
                             min="1"
@@ -116,14 +116,14 @@ export default function ReviewTable({ app_id }) {
                                 const page = Math.max(1, Math.min(Number(e.target.value), Math.ceil(total / limit)));
                                 goToPage(page);
                             }}
-                            className="w-16 px-3 py-2 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-16 px-3 py-2 border rounded text-center focus:ring-2 focus:ring-stone-500 focus:border-stone-500 text-sm"
                         />
-                        <span className="text-sm text-gray-500 ml-2">of {Math.ceil(total / limit)}</span>
+                        <span className="text-sm text-stone-500 ml-2">of {Math.ceil(total / limit)}</span>
                     </div>
                     <button
                         onClick={handleNext}
                         disabled={offset + limit >= total}
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="bg-stone-500 text-white py-2 px-4 rounded-md hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-offset-1 disabled:bg-stone-300 disabled:cursor-not-allowed"
                     >
                         Next
                     </button>

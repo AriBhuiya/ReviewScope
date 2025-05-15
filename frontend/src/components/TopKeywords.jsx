@@ -29,7 +29,7 @@ export default function TopKeywords({app_id}) {
 
     return (
         <div  className="bg-white p-4 rounded w-full h-64">
-            <h3 className="text-3xl md:text-3xl font-bold mb-7">Top Keywords</h3>
+            <h3 className="text-3xl md:text-3xl font-bold mb-7 text-stone-700">Top Keywords</h3>
                 <WordCloud
                     data={data}
                     fontSize={fontSizeMapper}

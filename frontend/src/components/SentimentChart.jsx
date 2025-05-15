@@ -21,7 +21,7 @@ export default function SentimentChart({app_id}) {
 
     return (
         <div className="w-full bg-white rounded  p-4 mb-4">
-            <h3 className="text-5xl md:text-5xl font-bold mb-7">Sentiment Over Time</h3>
+            <h3 className="text-5xl md:text-5xl font-bold mb-7 text-stone-700">Sentiment Over Time</h3>
             <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -31,8 +31,8 @@ export default function SentimentChart({app_id}) {
                     <Area
                         type="monotone"
                         dataKey="avg_sentiment"
-                        stroke="#1654ec"
-                        fill="#1654ec"                        
+                        stroke="#44403c"
+                        fill="#78716c"
                         strokeWidth={0}
                         dot={{ r: 0 }}
                         activeDot={{ r: 0 }}

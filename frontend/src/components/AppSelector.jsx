@@ -35,7 +35,7 @@ export default function AppSelector({ onSelectApp, onAddAppClick }) {
                 <select
                     value={selectedApp}
                     onChange={handleChange}
-                    className="flex-grow p-2 border rounded"
+                    className="flex-grow p-2 border rounded text-stone-700 bg-stone-200"
                     disabled={!!error}
                 >
                     {error ? (
@@ -53,7 +53,7 @@ export default function AppSelector({ onSelectApp, onAddAppClick }) {
             </div>
             <button
                 onClick={onAddAppClick}
-                className="bg-blue-500 text-white py-2 px-4 rounded-full shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 text-sm"
+                className="bg-stone-200 hover:bg-stone-500 hover:text-white text-stone-700 py-2 px-4 rounded shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 text-sm"
             >
                 + Add New App
             </button>

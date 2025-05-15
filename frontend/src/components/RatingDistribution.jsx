@@ -27,14 +27,14 @@ export default function RatingDistribution({app_id}) {
     }, [app_id]);
     return (
         <div className="bg-white p-4 rounded  w-full ">
-            <h3 className="text-3xl md:text-3xl font-bold mb-7">Rating Distributions</h3>
+            <h3 className="text-3xl md:text-3xl font-bold mb-7 text-stone-700">Rating Distributions</h3>
             <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="rating" />
                     <YAxis allowDecimals={false} />
                     <Tooltip />
-                    <Bar dataKey="count" fill="#1654ec" />
+                    <Bar dataKey="count" fill="#78716c" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

@@ -26,9 +26,13 @@ Curious to see ReviewScope in action?
 
 > 💡 Best viewed on desktop for the full dashboard experience.
 
+![img_5.png](img_5.png)
+![img_3.png](img_3.png)
 
-![img.png](img.png)
+Asynchronous - distributed sentiment parsing
+![img_1.png](img_1.png)
 
+> Simple to run `docker compose up` 
 ---
 
 ## About
@@ -197,6 +201,8 @@ Here's how a **new job flows through the system**:
 ![Job Flow](jobqueue/img.png)
 
 > Each stage is isolated — enabling resilience, scalability, and asynchronous execution.
+
+The workflow status can be seen in the UI by clicking on `view app submission` button.
 
 ---
 
